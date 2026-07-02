@@ -169,6 +169,7 @@ class ACLRuleTable(PrimaryModelTable):
             "source",
             "source_type",
             "description",
+            "tags",
             "comments",
         )
         default_columns = (
@@ -212,9 +213,13 @@ class ACLExtendedRuleTable(ACLRuleTable):
     protocol = columns.ChoiceFieldColumn()
 
     # Source
-    source_ports = columns.ArrayColumn(
-        verbose_name=_("Source Ports"),
-        empty_values=([],),
+    source_type = columns.ContentTypeColumn(
+        verbose_name=_("Source Type"),
+    )
+    source = tables.Column(
+        verbose_name=_("Source"),
+        orderable=False,
+        linkify=True,
     )
     source_port_ranges_list = columns.ArrayColumn(
         verbose_name=_("Source Ports"),
@@ -230,27 +235,21 @@ class ACLExtendedRuleTable(ACLRuleTable):
         orderable=False,
         linkify=True,
     )
-    destination_ports = columns.ArrayColumn(
+    destination_port_ranges_list = columns.ArrayColumn(
         verbose_name=_("Destination Ports"),
-        empty_values=([],),
+        orderable=False,
     )
 
     class Meta(ACLRuleTable.Meta):
         model = ACLExtendedRule
         fields = (
             *(ACLRuleTable.Meta.fields),
-            "source_ports",
-            "destination",
-            "destination_type",
-            "destination_ports",
             "protocol",
-            "source",
             "source_port_ranges_list",
             "destination",
+            "destination_type",
             "destination_port_ranges_list",
-            "description",
             "tags",
-            "comments",
         )
         default_columns = (
             "access_list",
@@ -262,5 +261,4 @@ class ACLExtendedRuleTable(ACLRuleTable):
             "source_port_ranges_list",
             "destination",
             "destination_port_ranges_list",
-            "tags",
         )
