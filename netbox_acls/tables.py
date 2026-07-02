@@ -206,6 +206,9 @@ class ACLExtendedRuleTable(ACLRuleTable):
         linkify=True,
     )
     action = columns.ChoiceFieldColumn()
+    tags = columns.TagColumn(
+        url_name="plugins:netbox_acls:aclextendedrule_list",
+    )
     protocol = columns.ChoiceFieldColumn()
 
     # Source
@@ -230,10 +233,6 @@ class ACLExtendedRuleTable(ACLRuleTable):
     destination_ports = columns.ArrayColumn(
         verbose_name=_("Destination Ports"),
         empty_values=([],),
-    )
-
-    tags = columns.TagColumn(
-        url_name="plugins:netbox_acls:aclextendedrule_list",
     )
 
     class Meta(ACLRuleTable.Meta):
